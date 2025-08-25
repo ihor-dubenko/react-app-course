@@ -1,16 +1,17 @@
-import cls from "./HomePage.module.css";
-import { QuestionCard } from "../../components/QuestionCard/index.jsx";
 import { API_URL } from "../../constants/index.js";
-import { useState, useEffect } from "react";
+import {
+  useState,
+  useEffect
+} from "react";
+import { QuestionCadList } from "../../components/QuestionCadList/index.jsx";
 
 export const HomePage = () => {
-  const [questions, setQuestions] = useState([]);
+  const [cards, setCards] = useState([]);
   const getQuestions = async () => {
     try {
       const response = await fetch(`${API_URL}/react`);
       const questions = await response.json();
-      setQuestions(questions);
-      console.log(questions);
+      setCards(questions);
     } catch(error) {
       console.log(error);
     }
@@ -21,11 +22,7 @@ export const HomePage = () => {
   }, []);
   return (
     <>
-      {
-        questions.map((card, index) => {
-          return <QuestionCard card={card} key={index} />
-        })
-      }
+      <QuestionCadList cards={cards} />
     </>
   )
 }
