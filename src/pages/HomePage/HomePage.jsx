@@ -3,25 +3,26 @@ import {
   useState,
   useEffect
 } from "react";
-import { QuestionCadList } from "../../components/QuestionCadList/index.jsx";
+import { QuestionCadList } from "../../components/QuestionCadList";
+import { Loader } from "../../components/Loader";
+import { useFetch } from "../../hooks/useFetch.js";
 
 export const HomePage = () => {
   const [cards, setCards] = useState([]);
-  const getQuestions = async () => {
-    try {
-      const response = await fetch(`${API_URL}/react`);
-      const questions = await response.json();
-      setCards(questions);
-    } catch(error) {
-      console.log(error);
-    }
-  }
+  const [getCards, isLoading, error] = useFetch(async (url) => {
+    const response = await fetch(`${API_URL}/${url}`);
+    const cards = await response.json();
+    setCards(cards);
+    return cards;
+  });
 
   useEffect(() => {
-    getQuestions();
+    getCards("react").catch(err => console.log(err));
   }, []);
   return (
     <>
+      {isLoading && <Loader /> }
+      {error && <p>{error}</p> }
       <QuestionCadList cards={cards} />
     </>
   )
