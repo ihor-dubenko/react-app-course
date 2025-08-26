@@ -1,26 +1,31 @@
 import { API_URL } from "../../constants/index.js";
 import {
   useState,
-  useEffect
+  useEffect,
+  useMemo
 } from "react";
 import { QuestionCadList } from "../../components/QuestionCadList";
 import { Loader } from "../../components/Loader";
 import { useFetch } from "../../hooks/useFetch.js";
-import cls from "./HomePage.module.css";
 import { SearchInput } from "../../components/SearchInput";
+import cls from "./HomePage.module.css";
 
 export const HomePage = () => {
-  const [cards, setCards] = useState([]);
+  const [questions, setQuestions] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [getCards, isLoading, error] = useFetch(async (url) => {
+  const [getQuestions, isLoading, error] = useFetch(async (url) => {
     const response = await fetch(`${API_URL}/${url}`);
-    const cards = await response.json();
-    setCards(cards);
-    return cards;
+    const questions = await response.json();
+    setQuestions(questions);
+    return questions;
   });
 
+  const cards = useMemo(() => {
+    return questions.filter(d => d.question.toLowerCase().includes(searchValue.trim().toLowerCase()));
+  }, [questions, searchValue]);
+
   useEffect(() => {
-    getCards("react").catch(err => console.log(err));
+    getQuestions("react").catch(err => console.log(err));
   }, []);
 
   const onSearchValueHandler = (e) => {
@@ -34,6 +39,7 @@ export const HomePage = () => {
       </div>
       { isLoading && <Loader /> }
       { error && <p>{error}</p> }
+      { cards.length === 0 && <p className={cls.noCardsInfo}>No cards...</p> }
       <QuestionCadList cards={cards} />
     </>
   )
