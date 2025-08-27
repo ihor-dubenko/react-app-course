@@ -14,16 +14,16 @@
     margin: 0 auto;
 }
 
-.select {
-    font-size: 16px;
-    height: 40px;
-    padding: 5px;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    background-color: var(--card-bg-color);
-    color: var(--text-color);
-    flex-grow: 1;
+.paginationContainer {
+    width: fit-content;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 10px 10px 25px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
 @media (max-width: 600px) {
