@@ -94,11 +94,15 @@ export const HomePage = () => {
           onChange={onSearchChangeHandler}
         />
         <Select
+          id={"sortSelect"}
+          name={"sortSelect"}
           value={sortSelectValue}
           onChange={onSortSelectChangeHandler}
           options={sortOptions}
         />
         <Select
+          id={"perPageSelect"}
+          name={"perPageSelect"}
           value={perPageSelectValue}
           onChange={onPerPageSelectChangeHandler}
           options={perPageOptions}

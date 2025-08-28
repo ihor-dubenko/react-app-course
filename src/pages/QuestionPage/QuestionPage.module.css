@@ -84,7 +84,7 @@
     cursor: pointer;
     width: 18px;
     height: 18px;
-    accent-color: #16c47f;
+    accent-color: var(--green-color);
     display: flex;
     justify-content: flex-start;
     align-items: center;

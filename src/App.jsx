@@ -5,8 +5,9 @@ import {
   Routes
 } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
-import { NotFoundPage } from "./pages/NotFoundPage/index.jsx";
-import { QuestionPage } from "./pages/QuestionPage/index.jsx";
+import { NotFoundPage } from "./pages/NotFoundPage";
+import { QuestionPage } from "./pages/QuestionPage";
+import { AddQuestionPage } from "./pages/AddQuestionPage";
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
           <Route element={<MainLayout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/forbidden" element={<div>forbidden</div>} />
-            <Route path="/add-question" element={<div>add question</div>} />
+            <Route path="/add-question" element={<AddQuestionPage />} />
             <Route path="/question/:id" element={<QuestionPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
