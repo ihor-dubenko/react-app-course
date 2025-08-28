@@ -1,16 +1,17 @@
-import { API_URL } from "../../constants/index.js";
+import { API_URL } from "../../constants";
 import {
   useState,
   useEffect,
-  useMemo, useRef
+  useMemo,
+  useRef
 } from "react";
 import { QuestionCadList } from "../../components/QuestionCadList";
 import { Loader } from "../../components/Loader";
 import { useFetch } from "../../hooks/useFetch.js";
 import { SearchInput } from "../../components/SearchInput";
+import { Select } from "../../components/Select";
+import { Pagination } from "../../components/Pagination";
 import cls from "./HomePage.module.css";
-import { Select } from "../../components/Select/index.jsx";
-import { Button } from "../../components/Button/index.jsx";
 
 const DEFAULT_PER_PAGE = 10;
 
@@ -46,8 +47,6 @@ export const HomePage = () => {
 
   const controlContainerRef = useRef();
 
-  const getActivePageNumber = () => (questions.next === null ? questions.last : questions.next - 1);
-
   const cards = useMemo(() => {
     if (questions?.data) {
       if (searchValue.trim()) {
@@ -65,7 +64,7 @@ export const HomePage = () => {
   }, [questions]);
 
   useEffect(() => {
-    getQuestions(`react${searchParams}`);
+    getQuestions(`react${searchParams}`).catch((err) => console.log(err));
   }, [searchParams]);
 
   const onSearchChangeHandler = (e) => {
@@ -100,9 +99,9 @@ export const HomePage = () => {
           options={sortOptions}
         />
         <Select
-            value={perPageSelectValue}
-            onChange={onPerPageSelectChangeHandler}
-            options={perPageOptions}
+          value={perPageSelectValue}
+          onChange={onPerPageSelectChangeHandler}
+          options={perPageOptions}
         />
       </div>
       { isLoading && <Loader /> }
@@ -114,15 +113,10 @@ export const HomePage = () => {
         ) :
         pagination.length > 1 &&
         (
-          <div className={cls.paginationContainer}>
-            {
-              pagination.map((value, key) => {
-                return <Button key={key} isActive={value === getActivePageNumber()} onClick={() => onPageChangeHandler(value)}>{value}</Button>
-              })
-            }
-          </div>
+          <Pagination questions={questions} pagination={pagination} onClick={(page) => onPageChangeHandler(page)}/>
         )
       }
     </>
   )
 }
+
